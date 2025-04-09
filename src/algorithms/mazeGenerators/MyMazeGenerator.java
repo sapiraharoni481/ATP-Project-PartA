@@ -1,4 +1,6 @@
 package algorithms.mazeGenerators;
 
-public class MyMazeGenerator {
+public class MyMazeGenerator extends AMazeGenerator{
+
+
 }
