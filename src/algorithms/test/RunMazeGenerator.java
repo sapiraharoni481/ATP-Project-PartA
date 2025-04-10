@@ -1,4 +1,4 @@
-package test;
+package algorithms.test;
 
 import algorithms.mazeGenerators.*;
 public class RunMazeGenerator {

@@ -1,4 +1,4 @@
-package test;
+package algorithms.test;
 
 public class GeneralCheckingFunctions {
 }
