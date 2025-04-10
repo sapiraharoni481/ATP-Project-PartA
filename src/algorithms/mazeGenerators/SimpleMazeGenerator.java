@@ -19,7 +19,7 @@ public class SimpleMazeGenerator extends AMazeGenerator{
         mazeGrid[startPosition.getRowIndex()][startPosition.getColumnIndex()]=0;
         mazeGrid[goalPosition.getRowIndex()][goalPosition.getColumnIndex()]=0;
         // נוודא שיש לפחות דרך פתרון אחד למבוך
-        ensurePath(mazeGrid,startPosition,goalPosition);
+        ensurePath(mazeGrid,startPosition,goalPosition); // פותח דברים ושןבר קירות במידה שחסום כך שבוודאות יהיה פתרון
         return new Maze(mazeGrid,startPosition,goalPosition);
     }
     private void ensurePath(int[][] maze,Position start,Position end){
@@ -32,9 +32,11 @@ public class SimpleMazeGenerator extends AMazeGenerator{
             currentRow++;
             maze[currentRow][currentCol]=0;//נפתח את המעבר
         }
-        while (currentCol<goalColumn){
-            currentRow++;
-            maze[currentRow][currentCol]=0;
+        while (currentCol < goalColumn) {
+            currentCol++; // שורות ולא עמודות
+            maze[currentRow][currentCol] = 0;
         }
+        // יוצר כביכול מסלול של אות L הפוכה - מסלול פשוט מאוד
+
     }
 }

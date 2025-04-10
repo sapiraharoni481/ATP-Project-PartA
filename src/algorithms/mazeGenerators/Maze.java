@@ -15,8 +15,7 @@ public class Maze {
     public int[][] getMaze(){
         return maze;
     }
-    public Position getStartPosition(){ return startPosition;
-    }
+
     public Position getGoaltPosition() {
         return goalPosition;
     }
@@ -32,5 +31,12 @@ public class Maze {
             }
             System.out.println();
         }
+    }
+
+    public Position getGoalPosition() {
+        return goalPosition;
+    }
+    public Position getStartPosition(){
+        return startPosition;
     }
 }
