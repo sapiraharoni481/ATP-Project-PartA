@@ -11,4 +11,4 @@ public abstract class ASearchingAlgorithm implements ISearchingAlgorithm {
     public int getNumberOfNodesEvaluated() {
         return numberOfNodesEvaluated;
     }
-}
+}//
