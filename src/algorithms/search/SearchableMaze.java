@@ -68,7 +68,7 @@ public class SearchableMaze implements ISearchable {
     }
 
     private void checkAndAddDiagonal(ArrayList<AState> possibleStates, int currentRow, int currentCol, int diagonalRow, int diagonalCol) {
-        if (isValidPosition(diagonalRow, diagonalCol) && ((isValidPosition(currentRow, diagonalCol) && isValidPosition(diagonalRow, currentCol)))) {
+        if (isValidPosition(diagonalRow, diagonalCol) && ((isValidPosition(currentRow, diagonalCol) || isValidPosition(diagonalRow, currentCol)))) {
             Position pos = new Position(diagonalRow, diagonalCol);     //  ניתן רק אם שני המעברים באופן ישר אפשריים
             possibleStates.add(new MazeState(pos, 15)); // עלות תנועה אלכסונית היא 15
         }

@@ -28,5 +28,11 @@ public class RunSearchOnMaze {
         for (int i = 0; i < solutionPath.size(); i++) {
             System.out.println(String.format("%s. %s", i, solutionPath.get(i)));
         }
+        double totalCost = 0;
+        for (AState step : solutionPath) {
+            totalCost += step.getCost();
+        }
+        System.out.println("Total path cost: " + totalCost);
+        System.out.println("Number of steps: " + solutionPath.size());
     }
 }
