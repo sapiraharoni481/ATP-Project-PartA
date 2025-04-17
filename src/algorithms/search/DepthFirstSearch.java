@@ -12,7 +12,6 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
         HashSet<String> visited = new HashSet<>();
         AState startState = searchable.getStartState();  // נוסיף את מצב ההתחלה למחסנית
         stack.push(startState);
-
         while (!stack.isEmpty()) {
             AState current = stack.pop();
             if (visited.contains(current.getState())) {  // בדיקה אם כבר ביקרנו במצב זה
@@ -35,7 +34,6 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
         }
         return new Solution(); // אם הגענו לכאן, לא מצאנו פתרון
     }
-
     private Solution backtrackSolution(AState goalState) {
         Solution solution = new Solution();
         ArrayList<AState> path = new ArrayList<>();
@@ -48,7 +46,6 @@ public class DepthFirstSearch extends ASearchingAlgorithm {
         solution.setSolutionPath(path);
         return solution;
     }
-
     @Override
     public String getName() {
         return "Depth First Search";

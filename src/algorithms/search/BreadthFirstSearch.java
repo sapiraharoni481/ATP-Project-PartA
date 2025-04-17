@@ -2,7 +2,6 @@ package algorithms.search;
 import java.util.*;
 
 public class BreadthFirstSearch extends ASearchingAlgorithm {
-
     @Override
     public Solution solve(ISearchable searchable) {
         if (searchable == null)
@@ -11,7 +10,6 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
         HashSet<String> closedSet = new HashSet<>();
         AState startState = searchable.getStartState();    // נוסיף את מצב ההתחלה לרשימה הפתוחה
         openList.add(startState);
-
         while (!openList.isEmpty()) {
             AState current = openList.poll();
             String currentStateString = current.getState();
@@ -34,7 +32,6 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
         }
         return new Solution();  // אם הגענו לכאן, לא מצאנו פתרון
     }
-
     private Solution backtrackSolution(AState goalState) {
         Solution solution = new Solution();
         ArrayList<AState> path = new ArrayList<>();
@@ -43,7 +40,6 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
             path.add(0, current);  // הוספה בתחילת המסלול
             current = current.getCameFrom();
         }
-
         solution.setSolutionPath(path);
         return solution;
     }

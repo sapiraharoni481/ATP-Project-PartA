@@ -3,27 +3,21 @@ package algorithms.search;
 import java.util.*;
 
 public class BestFirstSearch extends BreadthFirstSearch {
-
     @Override
     public Solution solve(ISearchable searchable) {
         if (searchable == null)
             return null;
-
         // נאתחל את המשתנים  תור עדיפויות לפי העלות
         PriorityQueue<AState> openList = new PriorityQueue<>(Comparator.comparingDouble(AState::getCost));
         HashSet<String> closedSet = new HashSet<>();
-
         AState startState = searchable.getStartState();   //נוסיף את מצב ההתחלה לרשימה הפתוחה
         openList.add(startState);
-
         while (!openList.isEmpty()) {
             AState current = openList.poll();
             String currentStateString = current.getState();
-
             if (current.equals(searchable.getGoalState())) {   // בדיקה אם הגענו למצב היעד
                 return backtrackSolution(current);
             }
-
             if (closedSet.contains(currentStateString)) {  // אם המצב כבר עובד, נדלג עליוע
                 continue;
             }
