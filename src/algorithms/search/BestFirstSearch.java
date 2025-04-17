@@ -136,8 +136,29 @@ public class BestFirstSearch extends BreadthFirstSearch {
                 double newCost = current.getCost() + neighbor.getCost();
                 neighbor.setCost(newCost);
 
-                if (!openMap.containsKey(neighborState)) {
+//                if (!openMap.containsKey(neighborState)) {
+//                    neighbor.setCameFrom(current);
+//                    openList.add(neighbor);
+//                    openMap.put(neighborState, neighbor);
+//                }
+                if (openMap.containsKey(neighborState)) {
+                    AState existingState = openMap.get(neighborState);
+                    // אם מצאנו דרך זולה יותר למצב קיים
+                    if (newCost < existingState.getCost()) {
+                        // מסירים את המצב הישן מהתור
+                        openList.remove(existingState);
+
+                        // מעדכנים את העלות והקודם
+                        existingState.setCameFrom(current);
+                        existingState.setCost(newCost);
+
+                        // מוסיפים מחדש לתור
+                        openList.add(existingState);
+                    }
+                } else {
+                    // מצב חדש שלא ראינו קודם
                     neighbor.setCameFrom(current);
+                    neighbor.setCost(newCost);
                     openList.add(neighbor);
                     openMap.put(neighborState, neighbor);
                 }
