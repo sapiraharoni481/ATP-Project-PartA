@@ -12,7 +12,7 @@ public class CompleteSearchAlgorithmsTest {
     public static void main(String[] args) {
         // יצירת מבוך קטן בגודל 10x10
         MyMazeGenerator generator = new MyMazeGenerator();
-        Maze maze = generator.generate(10, 10);
+        Maze maze = generator.generate(100, 100);
 
         System.out.println("=== בדיקת אלגוריתמי חיפוש ותנועות אלכסוניות ===");
         System.out.println("מבוך:");

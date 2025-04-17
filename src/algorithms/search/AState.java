@@ -49,4 +49,5 @@ public abstract class AState {
     public int hashCode() {
         return state.hashCode();
     }
+
 }
