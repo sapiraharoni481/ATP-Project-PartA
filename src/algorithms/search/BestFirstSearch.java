@@ -154,64 +154,84 @@
 //}
 
 
-package algorithms.search;
+//package algorithms.search;
 
-import algorithms.mazeGenerators.Position;
+//import algorithms.mazeGenerators.Position;
+
+//import java.util.*;
+//
+//public class BestFirstSearch extends BreadthFirstSearch {
+//    @Override
+//    protected Queue<AState> createOpenList() {
+//        return new PriorityQueue<>(Comparator.comparingDouble(AState::getCost));
+//    }
+//    @Override
+//
+//    public Solution solve(ISearchable searchable) {
+//        if (searchable == null)
+//            return null;
+//
+//        Queue<AState> openList = createOpenList();
+//        HashMap<String, AState> openMap = new HashMap<>();
+//        HashSet<String> closedSet = new HashSet<>();
+//
+//        AState startState = searchable.getStartState();
+//        startState.setCost(0);
+//        openList.add(startState);
+//        openMap.put(startState.getState(), startState);
+//
+//        while (!openList.isEmpty()) {
+//            AState current = openList.poll();
+//            openMap.remove(current.getState());
+//
+//            if (current.equals(searchable.getGoalState())) {
+//                return backtrackSolution(current);
+//            }
+//
+//            if (closedSet.contains(current.getState())) {
+//                continue;
+//            }
+//
+//            closedSet.add(current.getState());
+//            this.numberOfNodesEvaluated++;
+//
+//            ArrayList<AState> neighbors = searchable.getAllPossibleStates(current);
+//            for (AState neighbor : neighbors) {
+//                String neighborState = neighbor.getState();
+//                if (closedSet.contains(neighborState) || openMap.containsKey(neighborState)) {
+//                    continue;
+//                }
+//
+//                double newCost = current.getCost() + neighbor.getCost();
+//                neighbor.setCost(newCost);
+//                neighbor.setCameFrom(current);
+//
+//                openList.add(neighbor);
+//                openMap.put(neighborState, neighbor);
+//            }
+//        }
+//
+//        return new Solution();
+//    }
+//    @Override
+//    public String getName() {
+//        return "Best First Search";
+//    }
+//}
+//
+//
+
+
+
+package algorithms.search;
 
 import java.util.*;
 
 public class BestFirstSearch extends BreadthFirstSearch {
+
     @Override
     protected Queue<AState> createOpenList() {
         return new PriorityQueue<>(Comparator.comparingDouble(AState::getCost));
-    }
-    @Override
-
-    public Solution solve(ISearchable searchable) {
-        if (searchable == null)
-            return null;
-
-        Queue<AState> openList = createOpenList();
-        HashMap<String, AState> openMap = new HashMap<>();
-        HashSet<String> closedSet = new HashSet<>();
-
-        AState startState = searchable.getStartState();
-        startState.setCost(0);
-        openList.add(startState);
-        openMap.put(startState.getState(), startState);
-
-        while (!openList.isEmpty()) {
-            AState current = openList.poll();
-            openMap.remove(current.getState());
-
-            if (current.equals(searchable.getGoalState())) {
-                return backtrackSolution(current);
-            }
-
-            if (closedSet.contains(current.getState())) {
-                continue;
-            }
-
-            closedSet.add(current.getState());
-            this.numberOfNodesEvaluated++;
-
-            ArrayList<AState> neighbors = searchable.getAllPossibleStates(current);
-            for (AState neighbor : neighbors) {
-                String neighborState = neighbor.getState();
-                if (closedSet.contains(neighborState) || openMap.containsKey(neighborState)) {
-                    continue;
-                }
-
-                double newCost = current.getCost() + neighbor.getCost();
-                neighbor.setCost(newCost);
-                neighbor.setCameFrom(current);
-
-                openList.add(neighbor);
-                openMap.put(neighborState, neighbor);
-            }
-        }
-
-        return new Solution();
     }
     @Override
     public String getName() {
@@ -219,24 +239,3 @@ public class BestFirstSearch extends BreadthFirstSearch {
     }
 }
 
-
-
-
-
-//package algorithms.search;
-//
-//import java.util.*;
-//
-//public class BestFirstSearch extends BreadthFirstSearch {
-//
-//    @Override
-//    protected Queue<AState> createOpenList() {
-//        return new PriorityQueue<>(Comparator.comparingDouble(AState::getCost));
-//    }
-//
-//    @Override
-//    public String getName() {
-//        return "Best First Search";
-//    }
-//}
-//
