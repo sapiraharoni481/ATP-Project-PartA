@@ -42,20 +42,16 @@ public class MazeState extends AState {
         super(position.toString(), cost);
         this.position = position;
     }
-
     public Position getPosition() {
         return position;
     }
-
     // פונקציות חדשות ל-heurstic
     public void setHeuristic(double heuristic) {
         this.heuristic = heuristic;
     }
-
     public double getHeuristic() {
         return heuristic;
     }
-
     @Override
     public String toString() {
         return position.toString();

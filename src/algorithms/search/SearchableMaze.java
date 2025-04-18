@@ -25,7 +25,6 @@ public class SearchableMaze implements ISearchable {
     @Override
     public ArrayList<AState> getAllPossibleStates(AState state) {
         ArrayList<AState> possibleStates = new ArrayList<>();
-
         if (!(state instanceof MazeState)) {
             return possibleStates;
         }
@@ -45,35 +44,28 @@ public class SearchableMaze implements ISearchable {
 
         // Check left - cost 10
         checkAndAddPosition(possibleStates, row, col - 1, 10);
-
         // Check  up-right - cost 15
         checkAndAddDiagonal(possibleStates, row, col, row - 1, col + 1);
-
         // Check  down-right - cost 15
         checkAndAddDiagonal(possibleStates, row, col, row + 1, col + 1);
-
         // Check  down-left  - cost 15
         checkAndAddDiagonal(possibleStates, row, col, row + 1, col - 1);
-
         // Check  up-left  - cost 15
         checkAndAddDiagonal(possibleStates, row, col, row - 1, col - 1);
         return possibleStates;
     }
-
     private void checkAndAddPosition(ArrayList<AState> possibleStates, int row, int col, double cost) {
         if (isValidPosition(row, col)) {
             Position pos = new Position(row, col);
             possibleStates.add(new MazeState(pos, cost));
         }
     }
-
     private void checkAndAddDiagonal(ArrayList<AState> possibleStates, int currentRow, int currentCol, int diagonalRow, int diagonalCol) {
         if (isValidPosition(diagonalRow, diagonalCol) && ((isValidPosition(currentRow, diagonalCol) || isValidPosition(diagonalRow, currentCol)))) {
             Position pos = new Position(diagonalRow, diagonalCol);     //  ניתן רק אם שני המעברים באופן ישר אפשריים
             possibleStates.add(new MazeState(pos, 15)); // עלות תנועה אלכסונית היא 15
         }
     }
-
     private boolean isValidPosition(int row, int col) {
         // בדיקה שהמיקום הוא בתוך גבולות המבוך ושהוא לא קיר
         return row >= 0 && row < maze.getMaze().length && col >= 0 && col < maze.getMaze()[0].length && maze.getMaze()[row][col] == 0;
