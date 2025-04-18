@@ -11,6 +11,23 @@ public class Maze {
         this.startPosition=start;
         this.goalPosition=goal;
     }
+    public Maze(int rows, int cols) {
+        this.maze = new int[rows][cols];
+        this.startPosition = new Position(0, 0);  // ערכי ברירת מחדל
+        this.goalPosition = new Position(rows-1, cols-1);  // ערכי ברירת מחדל
+    }
+
+    public void setStartPosition(Position start) {
+        this.startPosition = start;
+    }
+
+    public void setGoalPosition(Position goal) {
+        this.goalPosition = goal;
+    }
+
+    public void setCell(int row, int col, int value) {
+        this.maze[row][col] = value;
+    }
 
     public int[][] getMaze(){
         return maze;
