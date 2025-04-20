@@ -4,6 +4,8 @@ public abstract class AState {
     private String state;
     private double cost;
     private AState cameFrom;
+    protected double heuristic = 0; // הוספנו שדה חדש להערכה של מרחק ליעד
+
 
     public AState(String state) {
         this.state = state;
@@ -32,10 +34,17 @@ public abstract class AState {
     public AState getCameFrom() {
         return cameFrom;
     }
+    public double getHeuristic(){
+        return  heuristic;
+    }
 
     public void setCameFrom(AState cameFrom) {
         this.cameFrom = cameFrom;
     }
+    public double getTotalCost() {
+        return getCost() + getHeuristic();
+    }
+
 
     @Override
     public boolean equals(Object o) {

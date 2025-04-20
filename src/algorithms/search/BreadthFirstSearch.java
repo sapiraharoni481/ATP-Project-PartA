@@ -1,127 +1,52 @@
-//package algorithms.search;
-//
-//import java.util.*;
-//
-//public class BreadthFirstSearch extends ASearchingAlgorithm {
-//
-//    @Override
-//    public Solution solve(ISearchable searchable) {
-//        if (searchable == null)
-//            return null;
-//        // נשתמש בתור רגיל (FIFO) לחיפוש לרוחב
-//        Queue<AState> openList = new LinkedList<>();
-//        // מפה לבדיקה האם מצב כבר נמצא בתור
-//        HashMap<String, AState> openMap = new HashMap<>();
-//        // סט לבדיקה האם מצב כבר נבדק
-//        HashSet<String> closedSet = new HashSet<>();
-//        AState startState = searchable.getStartState();
-//        startState.setCost(0); // מצב ההתחלה בעלות 0
-//        openList.add(startState);
-//        openMap.put(startState.getState(), startState);
-//        while (!openList.isEmpty()) {
-//            AState current = openList.poll();
-//            openMap.remove(current.getState());
-//            // בדיקה אם הגענו למצב היעד
-//            if (current.equals(searchable.getGoalState())) {
-//                return backtrackSolution(current);
-//            }
-//            // אם המצב כבר נבדק, נדלג עליו
-//            if (closedSet.contains(current.getState())) {
-//                continue;
-//            }
-//            // מסמנים את המצב כמצב שכבר בדקנו
-//            closedSet.add(current.getState());
-//            this.numberOfNodesEvaluated++;
-//            // נקבל את כל המצבים האפשריים מהמצב הנוכחי
-//            ArrayList<AState> neighbors = searchable.getAllPossibleStates(current);
-//            for (AState neighbor : neighbors) {
-//                String neighborState = neighbor.getState();
-//                // אם כבר בדקנו מצב זה או שהוא כבר בתור, נדלג
-//                if (closedSet.contains(neighborState) || openMap.containsKey(neighborState)) {
-//                    continue;
-//                }
-//                // מעדכנים את המצב הקודם ומוסיפים לתור
-//                neighbor.setCameFrom(current);
-//                // בחיפוש לרוחב, העלות משקפת את מספר הצעדים מההתחלה
-//
-//                neighbor.setCost(current.getCost() + neighbor.getCost());
-//                openList.add(neighbor);
-//                openMap.put(neighborState, neighbor);
-//            }
-//        }
-//        // לא מצאנו פתרון
-//        return new Solution();
-//    }
-//    protected Solution backtrackSolution(AState goalState) {
-//        Solution solution = new Solution();
-//        ArrayList<AState> path = new ArrayList<>();
-//        AState current = goalState;
-//        while (current != null) {
-//            path.add(0, current);  // הוספה בתחילת המסלול
-//            current = current.getCameFrom();
-//        }
-//        solution.setSolutionPath(path);
-//        return solution;
-//    }
-//    @Override
-//    public String getName() {
-//        return "Breadth First Search";
-//    }
-//    // מחזיר את מספר המצבים שהוערכו
-//    public int getNumberOfNodesEvaluated() {
-//        return numberOfNodesEvaluated;
-//    }
-//}
-package algorithms.search;
 
+package algorithms.search;
 import java.util.*;
 
 public class BreadthFirstSearch extends ASearchingAlgorithm {
-
     protected Queue<AState> createOpenList() {
         return new LinkedList<>();
     }
-
     @Override
     public Solution solve(ISearchable searchable) {
         if (searchable == null)
             return null;
-
         Queue<AState> openList = createOpenList();
         HashMap<String, AState> openMap = new HashMap<>();
         HashSet<String> closedSet = new HashSet<>();
-
         AState startState = searchable.getStartState();
         startState.setCost(0);
         openList.add(startState);
         openMap.put(startState.getState(), startState);
-
         while (!openList.isEmpty()) {
             AState current = openList.poll();
             openMap.remove(current.getState());
-
             if (current.equals(searchable.getGoalState())) {
                 return backtrackSolution(current);
             }
-
             if (closedSet.contains(current.getState()))
                 continue;
-
             closedSet.add(current.getState());
             numberOfNodesEvaluated++;
-
             for (AState neighbor : searchable.getAllPossibleStates(current)) {
                 String neighborState = neighbor.getState();
-                if (closedSet.contains(neighborState) || openMap.containsKey(neighborState))
+                double newCost = current.getCost() + neighbor.getCost();
+                neighbor.setCost(newCost);
+                if (closedSet.contains(neighborState))
                     continue;
-
-                neighbor.setCameFrom(current);
-                neighbor.setCost(current.getCost() + neighbor.getCost());
-                openList.add(neighbor);
-                openMap.put(neighborState, neighbor);
+                if(openMap.containsKey(neighborState)) {
+                    AState existingState = openMap.get(neighborState);
+                    if (existingState.getCost() > newCost) {
+                        existingState.setCameFrom(current);
+                        existingState.setCost(newCost);
+                    }
+                }else {
+                    neighbor.setCameFrom(current);
+                    neighbor.setCost(newCost);
+                    openList.add(neighbor);
+                    openMap.put(neighborState, neighbor);
+                }
             }
         }
-
         return new Solution();
     }
     protected Solution backtrackSolution(AState goalState) {
@@ -141,3 +66,93 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
         return "Breadth First Search";
     }
 }
+
+
+//package algorithms.search;
+//
+//import java.util.*;
+//
+//public class BreadthFirstSearch extends ASearchingAlgorithm {
+//
+//    protected Queue<AState> createOpenList() {
+//        return new LinkedList<>();
+//    }
+//
+//    @Override
+//    public Solution solve(ISearchable searchable) {
+//        if (searchable == null)
+//            return null;
+//
+//        Queue<AState> openList = createOpenList();
+//        HashMap<String, AState> openMap = new HashMap<>();
+//        HashSet<String> closedSet = new HashSet<>();
+//        AState startState = initializeSearch(searchable, openList, openMap);
+//
+//        while (!openList.isEmpty()) {
+//            AState current = openList.poll();
+//            openMap.remove(current.getState());
+//
+//            if (current.equals(searchable.getGoalState())) {
+//                return backtrackSolution(current);
+//            }
+//
+//            if (closedSet.contains(current.getState()))
+//                continue;
+//
+//            closedSet.add(current.getState());
+//            numberOfNodesEvaluated++;
+//
+//            for (AState neighbor : searchable.getAllPossibleStates(current)) {
+//                processNeighbor(current, neighbor, openList, openMap, closedSet);
+//            }
+//        }
+//
+//        return new Solution();
+//    }
+//
+//    private AState initializeSearch(ISearchable searchable, Queue<AState> openList, HashMap<String, AState> openMap) {
+//        AState startState = searchable.getStartState();
+//        startState.setCost(0);
+//        openList.add(startState);
+//        openMap.put(startState.getState(), startState);
+//        return startState;
+//    }
+//
+//    private void processNeighbor(AState current, AState neighbor, Queue<AState> openList,
+//                                 HashMap<String, AState> openMap, HashSet<String> closedSet) {
+//        String neighborState = neighbor.getState();
+//        double newCost = current.getCost() + neighbor.getCost();
+//        neighbor.setCost(newCost);
+//
+//        if (closedSet.contains(neighborState)) return;
+//
+//        if (openMap.containsKey(neighborState)) {
+//            AState existing = openMap.get(neighborState);
+//            if (existing.getCost() > newCost) {
+//                existing.setCameFrom(current);
+//                existing.setCost(newCost);
+//            }
+//        } else {
+//            neighbor.setCameFrom(current);
+//            openList.add(neighbor);
+//            openMap.put(neighborState, neighbor);
+//        }
+//    }
+//
+//    protected Solution backtrackSolution(AState goalState) {
+//        ArrayList<AState> path = new ArrayList<>();
+//        AState current = goalState;
+//        while (current != null) {
+//            path.add(0, current);
+//            current = current.getCameFrom();
+//        }
+//        Solution solution = new Solution();
+//        solution.setSolutionPath(path);
+//        return solution;
+//    }
+//
+//    @Override
+//    public String getName() {
+//        return "Breadth First Search";
+//    }
+//}

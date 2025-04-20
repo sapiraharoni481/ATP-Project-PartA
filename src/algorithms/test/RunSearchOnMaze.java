@@ -11,7 +11,6 @@ public class RunSearchOnMaze {
         IMazeGenerator mg = new MyMazeGenerator();
         Maze maze = mg.generate(30, 30);
         SearchableMaze searchableMaze = new SearchableMaze(maze);
-
         solveProblem(searchableMaze, new BreadthFirstSearch());
         solveProblem(searchableMaze, new DepthFirstSearch());
         solveProblem(searchableMaze, new BestFirstSearch());
@@ -21,8 +20,6 @@ public class RunSearchOnMaze {
         // Solve a searching problem with a searcher
         Solution solution = searcher.solve(domain);
         System.out.println(String.format("'%s' algorithm - nodes evaluated: %s", searcher.getName(), searcher.getNumberOfNodesEvaluated()));
-
-
         // Printing Solution Path
         System.out.println("Solution path:");
         ArrayList<AState> solutionPath = solution.getSolutionPath();
