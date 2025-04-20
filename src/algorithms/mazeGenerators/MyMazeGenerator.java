@@ -2,14 +2,32 @@
 
 package algorithms.mazeGenerators;
 
-// add to git
-import algorithms.mazeGenerators.Position;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Stack;
-// Randomized depth first algorithms.search
+/**
+ * Maze generator that uses randomized Depth-First Search (DFS)
+ * to create a perfect maze, then ensures there is a valid path
+ * to the goal position.
+ *
+ * Walls are represented by 1 and paths by 0.
+ * The algorithm breaks walls between unvisited neighbors
+ * and uses a stack to simulate DFS.
+ *
+ * @author Sapir
+ * @version 1.0
+ * @since 2025-04-13
+ */
 public class MyMazeGenerator extends AMazeGenerator{
+    /**
+     * Generates a new maze using a randomized DFS algorithm.
+     * Ensures that the goal position is reachable.
+     *
+     * @param rows Number of rows in the maze.
+     * @param columns Number of columns in the maze.
+     * @return A new  Maze object.
+     */
     @Override
     public Maze generate(int rows, int columns){
         // Creating a maze filled with walls
@@ -34,7 +52,6 @@ public class MyMazeGenerator extends AMazeGenerator{
             if (neighbors.size()>0){
                 Position next = neighbors.get(random.nextInt(neighbors.size()));
                 // Breaking walls between cells
-
                 int currRow = current.getRowIndex();
                 int currCol = current.getColumnIndex();
                 int nextRow = next.getRowIndex();
@@ -65,8 +82,9 @@ public class MyMazeGenerator extends AMazeGenerator{
         ensurePathToGoal(mazeGrid, rows, columns);
         return new Maze(mazeGrid, startPosition, goalPosition);
     }
-
-    // Add this method to ensure there's a path to the goal
+    /**
+     * Ensures there is a valid path to the goal position in case it was isolated.
+     */
     private void ensurePathToGoal(int[][] mazeGrid, int rows, int columns) {
         // If goal is already connected, no need to do anything
         if (isConnectedToMaze(mazeGrid, rows-1, columns-1, rows, columns)) {
@@ -99,9 +117,10 @@ public class MyMazeGenerator extends AMazeGenerator{
             mazeGrid[currentRow][currentCol] = 0;
         }
     }
-    // Check if a cell is connected to the maze
+    /**
+     * Checks if the goal cell is adjacent to any accessible cell.
+     */
     private boolean isConnectedToMaze(int[][] mazeGrid, int row, int col, int rows, int columns) {
-        // Check if any adjacent cell is a path
         if (row > 0 && mazeGrid[row-1][col] == 0)
             return true;
         if (row < rows-1 && mazeGrid[row+1][col] == 0)
@@ -112,7 +131,9 @@ public class MyMazeGenerator extends AMazeGenerator{
             return true;
         return false;
     }
-    // Find the nearest cell that is already part of the maze
+    /**
+     * Finds the nearest cell to the goal that is part of the maze path using BFS.
+     */
     private Position findNearestAccessibleCell(int[][] mazeGrid, int goalRow, int goalCol, int rows, int columns) {
         // Simple BFS to find the nearest accessible cell
         boolean[][] visited = new boolean[rows][columns];
@@ -145,6 +166,9 @@ public class MyMazeGenerator extends AMazeGenerator{
         // Fallback - should never reach here if the maze has at least one open cell
         return new Position(0, 0);
     }
+    /**
+     * Returns a list of unvisited neighbors (distance 2 away) that are still walls (value 1).
+     */
     private ArrayList<Position> getUnvisitedNeighbors(Position p,int[][] maze,int rows, int columns){
         ArrayList<Position> neighbors = new ArrayList<>();
         int row = p.getRowIndex();
