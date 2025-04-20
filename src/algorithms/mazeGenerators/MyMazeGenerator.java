@@ -51,7 +51,6 @@ public class MyMazeGenerator extends AMazeGenerator{
                     }else { // up
                         mazeGrid[currRow-1][currCol] = 0;
                     }
-
                 }
                 mazeGrid[nextRow][nextCol] = 0;
                 stack.push(next);
@@ -59,14 +58,11 @@ public class MyMazeGenerator extends AMazeGenerator{
                 stack.pop();
             }
         }
-
         // Set the goal position
         Position goalPosition = new Position(rows-1,columns-1);
         mazeGrid[rows-1][columns-1]=0;
-
         // Create a path from the current maze to the goal position if needed
         ensurePathToGoal(mazeGrid, rows, columns);
-
         return new Maze(mazeGrid, startPosition, goalPosition);
     }
 
@@ -76,18 +72,14 @@ public class MyMazeGenerator extends AMazeGenerator{
         if (isConnectedToMaze(mazeGrid, rows-1, columns-1, rows, columns)) {
             return;
         }
-
         // Otherwise, create a path from the nearest open cell to the goal
         int goalRow = rows-1;
         int goalCol = columns-1;
-
         // Find the nearest accessible cell
         Position nearestCell = findNearestAccessibleCell(mazeGrid, goalRow, goalCol, rows, columns);
-
         // Create a path from the nearest cell to the goal
         int currentRow = nearestCell.getRowIndex();
         int currentCol = nearestCell.getColumnIndex();
-
         // Create horizontal path first
         while (currentCol != goalCol) {
             if (currentCol < goalCol) {
@@ -97,7 +89,6 @@ public class MyMazeGenerator extends AMazeGenerator{
             }
             mazeGrid[currentRow][currentCol] = 0;
         }
-
         // Then create vertical path
         while (currentRow != goalRow) {
             if (currentRow < goalRow) {
@@ -108,7 +99,6 @@ public class MyMazeGenerator extends AMazeGenerator{
             mazeGrid[currentRow][currentCol] = 0;
         }
     }
-
     // Check if a cell is connected to the maze
     private boolean isConnectedToMaze(int[][] mazeGrid, int row, int col, int rows, int columns) {
         // Check if any adjacent cell is a path
@@ -120,30 +110,24 @@ public class MyMazeGenerator extends AMazeGenerator{
             return true;
         if (col < columns-1 && mazeGrid[row][col+1] == 0)
             return true;
-
         return false;
     }
-
     // Find the nearest cell that is already part of the maze
     private Position findNearestAccessibleCell(int[][] mazeGrid, int goalRow, int goalCol, int rows, int columns) {
         // Simple BFS to find the nearest accessible cell
         boolean[][] visited = new boolean[rows][columns];
         Stack<Position> queue = new Stack<>();
-
         queue.push(new Position(goalRow, goalCol));
         visited[goalRow][goalCol] = true;
-
         while (!queue.isEmpty()) {
             Position current = queue.pop();
             int row = current.getRowIndex();
             int col = current.getColumnIndex();
-
             // Check all four adjacent cells
             int[][] directions = {{-1,0}, {1,0}, {0,-1}, {0,1}};
             for (int[] dir : directions) {
                 int newRow = row + dir[0];
                 int newCol = col + dir[1];
-
                 // Check if valid position
                 if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < columns) {
                     if (!visited[newRow][newCol]) {
@@ -158,11 +142,9 @@ public class MyMazeGenerator extends AMazeGenerator{
                 }
             }
         }
-
         // Fallback - should never reach here if the maze has at least one open cell
         return new Position(0, 0);
     }
-
     private ArrayList<Position> getUnvisitedNeighbors(Position p,int[][] maze,int rows, int columns){
         ArrayList<Position> neighbors = new ArrayList<>();
         int row = p.getRowIndex();
