@@ -5,10 +5,10 @@ public class RunMazeGenerator {
     public static void main(String[] args) {
         testMazeGenerator(new EmptyMazeGenerator());
         testMazeGenerator(new SimpleMazeGenerator());
-        testMazeGenerator(new MyMazeGenerator());
+       testMazeGenerator(new MyMazeGenerator());
     }
     private static void testMazeGenerator(IMazeGenerator mazeGenerator){
-        System.out.println(String.format("Maze generation time(ms): %s", mazeGenerator.measureAlgorithmTimeMillis(1000/*rows*/,1000/*columns*/)));
+        System.out.println(String.format("Maze generation time(ms): %s", mazeGenerator.measureAlgorithmTimeMillis(100/*rows*/,100/*columns*/)));
         Maze maze = mazeGenerator.generate(100/*rows*/, 100/*columns*/);
         maze.print();
         Position startPosition = maze.getStartPosition();
