@@ -10,7 +10,6 @@ package algorithms.mazeGenerators;
  * @since 2025-04-10
  */
 public abstract class AMazeGenerator implements IMazeGenerator {
-
     /**
      * Measures the time (in milliseconds) required to generate a maze
      * with the specified number of rows and columns.
