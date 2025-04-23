@@ -69,28 +69,20 @@ public class SearchableMaze implements ISearchable {
         Position position = mazeState.getPosition();
         int row = position.getRowIndex();
         int col = position.getColumnIndex();
-
         // Check up
         checkAndAddPosition(possibleStates, row - 1, col);
-
         // Check right - cost 10
         checkAndAddPosition(possibleStates, row, col + 1);
-
         // Check down - cost 10
         checkAndAddPosition(possibleStates, row + 1, col);
-
         // Check left - cost 10
         checkAndAddPosition(possibleStates, row, col - 1);
-
         // Check  up-right - cost 15
         checkAndAddDiagonal(possibleStates, row, col, row - 1, col + 1);
-
         // Check  down-right - cost 15
         checkAndAddDiagonal(possibleStates, row, col, row + 1, col + 1);
-
         // Check  down-left  - cost 15
         checkAndAddDiagonal(possibleStates, row, col, row + 1, col - 1);
-
         // Check  up-left  - cost 15
         checkAndAddDiagonal(possibleStates, row, col, row - 1, col - 1);
         return possibleStates;
@@ -139,7 +131,6 @@ public class SearchableMaze implements ISearchable {
      * @param col The column index.
      * @return true if the position is valid and accessible, false otherwise.
      */
-
     private boolean isValidPosition(int row, int col) {
         return row >= 0 && row < maze.getMaze().length && col >= 0 && col < maze.getMaze()[0].length && maze.getMaze()[row][col] == 0;
     }

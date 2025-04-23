@@ -134,7 +134,6 @@ public class Maze {
     private int[][] maze;
     private Position startPosition;
     private Position goalPosition;
-
     /**
      * Constructs a Maze object with a given grid and specific start and goal positions.
      *
