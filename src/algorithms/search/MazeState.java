@@ -36,4 +36,3 @@ public class MazeState extends AState {
         return position.toString();
     }
 }
-

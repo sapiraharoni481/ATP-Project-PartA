@@ -85,7 +85,7 @@ import java.util.*;
 
 public class BestFirstSearch extends BreadthFirstSearch {
 
-//    @Override
+    //    @Override
 //    protected Queue<AState> createOpenList() {
 //        return new PriorityQueue<>(new Comparator<AState>() {
 //            @Override
@@ -94,15 +94,15 @@ public class BestFirstSearch extends BreadthFirstSearch {
 //            }
 //        });
 //    }
-@Override
-protected Queue<AState> createOpenList() {
-    return new PriorityQueue<>(Comparator.comparingDouble(state -> {
-        if (state instanceof MazeState) {
-            return ((MazeState) state).getHeuristic(); // דירוג לפי h בלבד
-        }
-        return state.getCost(); // fallback
-    }));
-}
+    @Override
+    protected Queue<AState> createOpenList() {
+        return new PriorityQueue<>(Comparator.comparingDouble(state -> {
+            if (state instanceof MazeState) {
+                return ((MazeState) state).getHeuristic(); // דירוג לפי h בלבד
+            }
+            return state.getCost(); // fallback
+        }));
+    }
 
 
     @Override

@@ -89,4 +89,3 @@ public class SearchableMaze implements ISearchable {
         return row >= 0 && row < maze.getMaze().length && col >= 0 && col < maze.getMaze()[0].length && maze.getMaze()[row][col] == 0;
     }
 }
-
