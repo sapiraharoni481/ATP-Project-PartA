@@ -1,0 +1,71 @@
+package algorithms.test;
+
+import IO.MyCompressorOutputStream;
+import IO.MyDecompressorInputStream;
+import algorithms.mazeGenerators.AMazeGenerator;
+import algorithms.mazeGenerators.Maze;
+import algorithms.mazeGenerators.MyMazeGenerator;
+import java.io.*;
+import java.util.Arrays;
+
+public class RunCompressDecompressMaze {
+    public static void main(String[] args) {
+        String mazeFileName = "savedMaze.maze";
+        AMazeGenerator mazeGenerator = new MyMazeGenerator();
+        Maze maze = mazeGenerator.generate(100, 100); //Generate new maze
+        try {
+// save maze to a file
+            OutputStream out = new MyCompressorOutputStream(new
+                    FileOutputStream(mazeFileName));
+            out.write(maze.toByteArray())
+            ; out.flush();
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        byte savedMazeBytes[] = new byte[0];
+        try {
+//read maze from file
+            InputStream in = new MyDecompressorInputStream(new
+                    FileInputStream(mazeFileName));
+            savedMazeBytes = new byte[maze.toByteArray().length];
+            in.read(savedMazeBytes);
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Maze loadedMaze = new Maze(savedMazeBytes);
+        boolean areMazesEquals =
+                Arrays.equals(loadedMaze.toByteArray(),maze.toByteArray());
+        System.out.println(String.format("Mazes equal: %s",areMazesEquals));
+//maze should be equal to loadedMaze
+
+
+        /// ny test
+//
+//        // מדידת גודל המבוך המקורי בבתים
+//        byte[] originalMazeBytes = maze.toByteArray();
+//        System.out.println("Original maze size in bytes: " + originalMazeBytes.length);
+//
+//// מדידת גודל המבוך הדחוס (גודל הקובץ)
+//        File mazeFile = new File(mazeFileName);
+//        System.out.println("Compressed maze file size in bytes: " + mazeFile.length());
+//
+//// מדידת גודל המבוך שנטען
+//        byte[] loadedMazeBytes = loadedMaze.toByteArray();
+//        System.out.println("Loaded maze size in bytes: " + loadedMazeBytes.length);
+//
+//// חישוב יחס הדחיסה
+//        double compressionRatio = (double) mazeFile.length() / originalMazeBytes.length;
+//        System.out.println("Compression ratio: " + compressionRatio);
+//        System.out.println("Space saved: " + (1 - compressionRatio) * 100 + "%");
+//
+//// האם המבוכים זהים?
+//        boolean areMazesEqual = Arrays.equals(loadedMazeBytes, originalMazeBytes);
+//        System.out.println(String.format("Mazes equal: %s", areMazesEqual));
+   }
+
+
+
+
+}
