@@ -40,32 +40,5 @@ public class RunCompressDecompressMaze {
         System.out.println(String.format("Mazes equal: %s",areMazesEquals));
 //maze should be equal to loadedMaze
 
-
-        /// ny test
-//
-//        // מדידת גודל המבוך המקורי בבתים
-//        byte[] originalMazeBytes = maze.toByteArray();
-//        System.out.println("Original maze size in bytes: " + originalMazeBytes.length);
-//
-//// מדידת גודל המבוך הדחוס (גודל הקובץ)
-//        File mazeFile = new File(mazeFileName);
-//        System.out.println("Compressed maze file size in bytes: " + mazeFile.length());
-//
-//// מדידת גודל המבוך שנטען
-//        byte[] loadedMazeBytes = loadedMaze.toByteArray();
-//        System.out.println("Loaded maze size in bytes: " + loadedMazeBytes.length);
-//
-//// חישוב יחס הדחיסה
-//        double compressionRatio = (double) mazeFile.length() / originalMazeBytes.length;
-//        System.out.println("Compression ratio: " + compressionRatio);
-//        System.out.println("Space saved: " + (1 - compressionRatio) * 100 + "%");
-//
-//// האם המבוכים זהים?
-//        boolean areMazesEqual = Arrays.equals(loadedMazeBytes, originalMazeBytes);
-//        System.out.println(String.format("Mazes equal: %s", areMazesEqual));
    }
-
-
-
-
 }

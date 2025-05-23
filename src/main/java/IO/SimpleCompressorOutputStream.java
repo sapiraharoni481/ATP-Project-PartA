@@ -1,28 +1,46 @@
 package IO;
 
-
 import java.io.IOException;
 import java.io.OutputStream;
 
+/**
+ * Simple compressor output stream that uses run-length encoding (RLE) compression.
+ * Compresses data by counting consecutive identical bytes and writing the count followed by the byte value.
+ * Preserves the first 12 bytes of metadata without compression.
+ *
+ * @author Sapir Aharoni
+ * @version 1.0
+ */
 public class SimpleCompressorOutputStream extends OutputStream {
     private OutputStream out;
     private byte lastByte;
     private int counter;
 
+    /**
+     * Creates a new simple compressor output stream.
+     *
+     * @param out the underlying output stream to write compressed data to
+     */
     public SimpleCompressorOutputStream(OutputStream out) {
         this.out = out;
-        this.lastByte = 0; // מתחילים עם 0
+        this.lastByte = 0; // Start with 0
         this.counter = 0;
     }
 
+    /**
+     * Writes a single byte using run-length encoding compression.
+     *
+     * @param b the byte to write
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     public void write(int b) throws IOException {
         if (b == lastByte) {
             counter++;
-            if (counter == 255) { // אם הגענו למקסימום שבייט יכול לייצג
+            if (counter == 255) { // If we reached the maximum a byte can represent
                 out.write(counter);
                 counter = 0;
-                out.write(0); // אפס הופעות של הערך ההפוך (כדי לשמור על הסדר)
+                out.write(0); // Zero occurrences of the opposite value (to maintain order)
             }
         } else {
             out.write(counter);
@@ -31,15 +49,25 @@ public class SimpleCompressorOutputStream extends OutputStream {
         }
     }
 
+    /**
+     * Compresses and writes a byte array using run-length encoding.
+     * The compression process:
+     * 1. Writes first 12 bytes as metadata without compression
+     * 2. Applies RLE compression to the remaining maze content
+     * 3. Handles maximum count overflow (255) by writing intermediate counts
+     *
+     * @param b the byte array to compress and write
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     public void write(byte[] b) throws IOException {
-        // כתיבת המטא-דאטה (הממדים ומיקומי התחלה/סיום)
+        // Write metadata (dimensions and start/end positions)
         for (int i = 0; i < 12; i++) {
             out.write(b[i]);
         }
 
-        // דחיסת תוכן המבוך עצמו לפי השיטה שתוארה בעמוד 19-20
-        lastByte = 0; // מתחילים עם 0
+        // Compress maze content using the method described on pages 19-20
+        lastByte = 0; // Start with 0
         counter = 0;
 
         for (int i = 12; i < b.length; i++) {
@@ -47,23 +75,23 @@ public class SimpleCompressorOutputStream extends OutputStream {
 
             if (currentBit == lastByte) {
                 counter++;
-                // אם הגענו למקסימום ערך שבייט יכול לייצג (255)
+                // If we reached the maximum value a byte can represent (255)
                 if (counter == 255) {
                     out.write(counter);
                     counter = 0;
-                    // נמשיך עם אותו ערך, צריך להוציא 0 הופעות של הערך ההפוך
+                    // Continue with same value, need to output 0 occurrences of opposite value
                     out.write(0);
                 }
             } else {
-                // כותבים את הספירה של הערך הקודם
+                // Write the count of the previous value
                 out.write(counter);
-                // מחליפים את הערך ומאפסים את הספירה
+                // Switch value and reset counter
                 lastByte = currentBit;
                 counter = 1;
             }
         }
 
-        // כותבים את הספירה האחרונה
+        // Write the final count
         if (counter > 0) {
             out.write(counter);
         }

@@ -51,7 +51,6 @@ public class SimpleMazeGenerator extends AMazeGenerator{
 
         // Create simple L-shaped path
         ensurePath(mazeGrid, startPosition, goalPosition);
-
         return new Maze(mazeGrid, startPosition, goalPosition);
     }
 

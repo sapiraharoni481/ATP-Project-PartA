@@ -6,11 +6,48 @@ import algorithms.search.*;
 import java.io.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Server strategy implementation for solving maze search problems.
+ * This strategy receives a maze from the client, solves it using the configured
+ * search algorithm, and returns the solution. It implements a two-level caching
+ * system for improved performance:
+ * 1. In-memory cache using ConcurrentHashMap for fast access
+ * 2. Disk-based cache for persistent storage across server restarts
+ *
+ * Supported search algorithms:
+ * - BreadthFirstSearch
+ * - DepthFirstSearch
+ * - BestFirstSearch (default)
+ *
+ * @author Sapir Aharoni
+ * @version 1.0
+ */
 public class ServerStrategySolveSearchProblem implements IServerStrategy {
 
     // Static cache to store maze solutions
     private static final ConcurrentHashMap<String, Solution> solutionsCache = new ConcurrentHashMap<>();
 
+    /**
+     * Applies the maze solving strategy by receiving a maze from the client,
+     * checking cache for existing solutions, solving if necessary, and returning
+     * the solution to the client.
+     *
+     * Cache strategy:
+     * 1. Check in-memory cache first
+     * 2. Check disk cache if not in memory
+     * 3. Solve maze if no cached solution exists
+     * 4. Cache solution both in memory and on disk
+     *
+     * Protocol:
+     * 1. Receives Maze object from client
+     * 2. Generates unique hash for the maze
+     * 3. Checks caches for existing solution
+     * 4. Solves maze using configured algorithm if needed
+     * 5. Sends Solution object back to client
+     *
+     * @param inFromClient the input stream from the client
+     * @param outToClient the output stream to the client
+     */
     @Override
     public void applyStrategy(InputStream inFromClient, OutputStream outToClient) {
         try {
@@ -99,9 +136,18 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
     }
 
     /**
-     * Generate a unique hash for a maze to use as a key for caching
-     * @param maze The maze to hash
-     * @return A string hash representing the maze
+     * Generates a unique hash for a maze to use as a key for caching.
+     * The hash includes maze dimensions, start/goal positions, and a checksum
+     * of the maze structure to ensure uniqueness while keeping the hash compact.
+     *
+     * Hash components:
+     * - Maze dimensions (rows x columns)
+     * - Start position coordinates
+     * - Goal position coordinates
+     * - Checksum of entire maze structure
+     *
+     * @param maze the maze to generate a hash for
+     * @return a string hash representing the unique maze configuration
      */
     private String getMazeHash(Maze maze) {
         StringBuilder sb = new StringBuilder();
