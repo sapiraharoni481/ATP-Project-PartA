@@ -1,4 +1,4 @@
-package algorithms.test;
+package test;
 
 import Client.Client;
 import Client.IClientStrategy;

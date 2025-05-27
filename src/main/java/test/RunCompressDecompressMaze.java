@@ -1,4 +1,4 @@
-package algorithms.test;
+package test;
 
 import IO.MyCompressorOutputStream;
 import IO.MyDecompressorInputStream;
