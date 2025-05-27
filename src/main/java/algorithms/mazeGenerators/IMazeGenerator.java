@@ -21,7 +21,7 @@ public interface IMazeGenerator {
      */
     Maze generate(int rows, int columns);
 
-    /**
+    /****
      * Measures the time (in milliseconds) it takes to generate a maze
      * with the given dimensions.
      *
